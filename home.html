@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Welcome to {{ cafeteria_info.name }}</h2>
+    
+    <div class="info-card">
+        <h3><i class="far fa-clock"></i> Hours of Operation</h3>
+        <p>{{ cafeteria_info.hours.days }}<br>
+           {{ cafeteria_info.hours.time }}</p>
+        
+        <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+        <p>{{ cafeteria_info.location }}</p>
+        
+        <h3><i class="far fa-envelope"></i> Contact</h3>
+        <p>{{ cafeteria_info.contact }}</p>
+    </div>
+    
+    <div class="menu-preview">
+        <h3>Today's Menu</h3>
+        <div class="menu-buttons">
+            <a href="{{ url_for('menu', category='breakfast') }}" class="menu-btn breakfast">
+                <i class="fas fa-coffee"></i>
+                <span>Breakfast Menu</span>
+            </a>
+            <a href="{{ url_for('menu', category='lunch') }}" class="menu-btn lunch">
+                <i class="fas fa-utensils"></i>
+                <span>Lunch Menu</span>
+            </a>
+        </div>
+    </div>
+{% endblock %}

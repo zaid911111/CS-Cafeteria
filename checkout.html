@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - College Cafeteria{% endblock %}
+
+{% block content %}
+    <h2>Checkout</h2>
+    
+    {% if cart %}
+        <h3>Order Summary</h3>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>${{ "%.2f"|format(item.price) }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ "%.2f"|format(item.total) }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+                    <td><strong>${{ "%.2f"|format(total) }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Payment Information</h3>
+        <form action="{{ url_for('checkout') }}" method="post">
+            <div style="margin-bottom: 15px;">
+                <label for="student_id">Student ID:</label>
+                <input type="text" id="student_id" name="student_id" required style="width: 200px; padding: 5px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="pickup_time">Pickup Time:</label>
+                <input type="time" id="pickup_time" name="pickup_time" value="{{ current_time }}" required style="width: 200px; padding: 5px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="payment_method">Payment Method:</label>
+                <select id="payment_method" name="payment_method" required style="width: 200px; padding: 5px;">
+                    <option value="meal_plan">Meal Plan</option>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="cash">Cash on Pickup</option>
+                </select>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn">Place Order</button>
+                <a href="{{ url_for('view_cart') }}" style="margin-left: 10px;">Back to Cart</a>
+            </div>
+        </form>
+    {% else %}
+        <p>Your cart is empty. <a href="{{ url_for('menu', category='breakfast') }}">Browse our menu</a> to add items.</p>
+    {% endif %}
+{% endblock %}
